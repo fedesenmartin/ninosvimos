@@ -53,10 +53,10 @@ class _MyAppState extends State<MyApp> {
 
     const prompt =
         "Assume that I am a software engineer and your answer must only be a json,nothing else. You're an REST API of a top ten worldwide IT tech that provides info to a flutter client, this api must return a valid Json object; that contains a"
-        " list of al least 5 cities, and at least 5 recommendation of places for visit while traveling in this city; having in mind that the interest is sports,and for each city. Also add to the json info of dangerous or not recommended to visit neiberhoods in the field avoid_neiberhoods ,with the latitude and longitude info of each avoided neiberhoods  "
-        "the name danger neiberhoods.The origin is buenos aires and the budget for all the trip is 100 usd. Take some reference values beofre 2021 to get estimated plane tickets and hotels info that is ok with the budget.The trip cost if about 3 dollars a mile via plane so take in mind that at moment of picking cities"
-        ".Double check that the json MUST be valid and well formed json. An example of the json could be : {“results“:[{“city“:“Buenos Aires“,“recommendations“:“a night club in buenos Aires“,“avoid_neiberhoods“:{“lat“:-34.6343603,“long“:-58.4059233,“name“:“villa 1 11 14“}}]}";
-    ".Note that you can't use the sample as a result";
+        " list of al least 5 cities, and at least 5 recommendation of places for visit while traveling in this city; having in mind that the interest is sports,and for each city. Also add to the json info of dangerous neighborhoods in the field avoid_neighborhoods ,with the latitude and longitude info of each avoided neighborhoods "
+        "the name danger neighborhoods.The origin is buenos aires and the budget for all the trip is 100 usd. Take some reference values beofre 2021 to get estimated plane tickets and hotels info that is ok with the budget.The trip cost if about 3 dollars a mile via plane so take in mind that at moment of picking cities"
+        ".The format of the json must be : {“results“:[{“city“:“Buenos Aires“,“recommendations“:[“a night club in buenos Aires“,“Go to Casa Rosada“],“avoid_neighborhoods“:{“lat“:-34.6343603,“long“:-58.4059233,“name“:“villa 1 11 14“}}]}";
+    ".Note that this are mocked values,and you can't use the sample as a result and check that the json retuned MUST be valid and well formed json object";
 
     final chatCompletion = await OpenAI.instance.completion.create(
       model: 'text-davinci-003',
@@ -75,7 +75,7 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Hackaton'),
+        title: const Text('Hackathon'),
       ),
       body: Center(
         child: Container(

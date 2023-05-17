@@ -32,9 +32,9 @@ class Results {
     city = json['city'];
 
     recomendations = json['recommendations'].cast<String>();
-    if (json['avoid_neiberhoods'] != null) {
+    if (json['avoid_neighborhoods'] != null) {
       avoidNeiberhoods = <AvoidNeiberhoods>[];
-      json['avoid_neiberhoods'].forEach((v) {
+      json['avoid_neighborhoods']?.forEach((v) {
         avoidNeiberhoods!.add(AvoidNeiberhoods.fromJson(v));
       });
     }
@@ -45,7 +45,7 @@ class Results {
     data['city'] = city;
     data['recommendations'] = recomendations;
     if (avoidNeiberhoods != null) {
-      data['avoid_neiberhoods'] =
+      data['avoid_neighborhoods'] =
           avoidNeiberhoods!.map((v) => v.toJson()).toList();
     }
     return data;
