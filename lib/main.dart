@@ -48,10 +48,12 @@ class _MyAppState extends State<MyApp> {
     });
     OpenAI.apiKey=  "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";
 
-    const prompt= "Assume that I am a software engineer and your answer must only be a json,nothing else. You're an REST API that returns a valid Json object; that contains a"
-        " list of top 10 cities, and at least 5 recommendation of places for visit while traveling having in mind that the interest is sports,and for each city also add avoid_neiberhoods info with their lat and long data "
-        "that is the name danger neiberhoods.The origin is buenos aires and the budget is 100 usd. The trip cost if about 3 dollars a mile via plane so take in mind that at momento of picking cities"
-        "The format of the json could be: {“results“:[{“city“:“Buenos Aires“,“recomendations“:“a night club in buenas Aires“,“avoid_neiberhoods“:{“lat“:1231231.2321,“long“:1231231.23,“name“:“villa 1 11 14“}}]}}";
+    const prompt= "Assume that I am a software engineer and your answer must only be a json,nothing else. You're an REST API of a top ten worldwide IT tech that provis info to a flutter client, this api returns a valid Json object; that contains a"
+        " list of al least 5 cities, and at least 5 recommendation of places for visit while traveling in this city, having in mind that the interest is sports,and for each city. Also add to the json info of dangerous or not recommended to visit neiberhoods in the field avoid_neiberhoods ,with the latitude and longitude info of each avoided neiberhoods  "
+        "the name danger neiberhoods.The origin is buenos aires and the budget is 100 usd. The trip cost if about 3 dollars a mile via plane so take in mind that at momento of picking cities"
+        "A sample of the json could be: {“results“:[{“city“:“Buenos Aires“,“recomendations“:“a night club in buenos Aires“,“avoid_neiberhoods“:{“lat“:-34.6343603,“long“:-58.4059233,“name“:“villa 1 11 14“}}]}";
+    ".Note that you cant use the sample as a result";
+
 
 
     final chatCompletion = await OpenAI.instance.completion.create(
@@ -61,13 +63,13 @@ class _MyAppState extends State<MyApp> {
     );
 
     logger.i(chatCompletion.choices.first.text);
-    
+
     setState(() {
       isLoading = false;
     });
-    
+
     chatgptResponse = chatCompletion.toString();
-    
+
     return chatgptResponse;
   }
 
@@ -88,7 +90,7 @@ class _MyAppState extends State<MyApp> {
                   TextFormField(
                     keyboardType: TextInputType.number,
                     decoration:
-                        const InputDecoration(labelText: 'Money to Spend'),
+                    const InputDecoration(labelText: 'Money to Spend'),
                     onChanged: (value) {
                       setState(() {
                         moneySpent = double.tryParse(value);
@@ -101,9 +103,9 @@ class _MyAppState extends State<MyApp> {
                     buttonText: const Text('Select Interests'),
                     items: _interests
                         .map((interest) => MultiSelectItem<String>(
-                              interest.value,
-                              interest.name,
-                            ))
+                      interest.value,
+                      interest.name,
+                    ))
                         .toList(),
                     listType: MultiSelectListType.CHIP,
                     onConfirm: (values) {
@@ -153,14 +155,14 @@ class _MyAppState extends State<MyApp> {
                     onPressed: isLoading
                         ? null
                         : () {
-                            callChatGPTAPI().then((response) {
-                              chatgptResponse = response;
-                            }).catchError((error) {
-                              logger.e(error);
+                      callChatGPTAPI().then((response) {
+                        chatgptResponse = response;
+                      }).catchError((error) {
+                        logger.e(error);
 
-                              // Handle API error here
-                            });
-                          },
+                        // Handle API error here
+                      });
+                    },
                     child: isLoading
                         ? const CircularProgressIndicator()
                         : const Text('Buscar Destinos'),
