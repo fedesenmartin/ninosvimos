@@ -52,11 +52,11 @@ class _MyAppState extends State<MyApp> {
     OpenAI.apiKey = "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";
 
     const prompt =
-        "Assume that I am a software engineer and your answer must only be a json,nothing else. You're an REST API of a top ten worldwide IT tech that provides info to a flutter client, this api must return a valid Json object; that contains a"
-        " list of al least 5 cities, and at least 5 recommendation of places for visit while traveling in this city; having in mind that the interest is sports,and for each city. Also add to the json info of dangerous neighborhoods in the field avoid_neighborhoods ,with the latitude and longitude info of each avoided neighborhoods "
-        "the name danger neighborhoods.The origin is buenos aires and the budget for all the trip is 100 usd. Take some reference values beofre 2021 to get estimated plane tickets and hotels info that is ok with the budget.The trip cost if about 3 dollars a mile via plane so take in mind that at moment of picking cities"
-        ".The format of the json must be : {“results“:[{“city“:“Buenos Aires“,“recommendations“:[“a night club in buenos Aires“,“Go to Casa Rosada“],“avoid_neighborhoods“:{“lat“:-34.6343603,“long“:-58.4059233,“name“:“villa 1 11 14“}}]}";
-    ".Note that this are mocked values,and you can't use the sample as a result and check that the json retuned MUST be valid and well formed json object";
+        "Assume that I am a software engineer and your answer must only be a valid json,nothing else. You're an REST API of a IT tech company that creates trip advices for a user, the user gives a budget and a origin for the trip and the api must return recommended cities for the trip that are inside budget, including plane tickets,hotels,foods,etc. The origin is cartagena,the budget is 50 usd dollars for 1 person and 1 week. Plane ticket price is around 0.33 usd dollars per mile."
+        " has to include list of al least 5 recommended cities for the trip, and at least a list of 5 places recommended for the trip of the city; having in mind that the interest is sports. Also for each city add a list of f dangerous/high criminality neighborhoods in field called avoid_neighborhoods  ,with the name of avoided neighborhood and the latitude and longitude info of each dangerous/high criminality not recommended neighborhood "
+        ".Take some reference values before 2021 to get estimated plane tickets price and hotels price info that is ok with the budget."
+        "An example of returned json format: {“results“:[{“city“:“Buenos Aires“,“recommendations“:[“a night club in buenos Aires“,“Go to Casa Rosada“],“avoid_neighborhoods“:{“lat“:-34.6343603,“long“:-58.4059233,“name“:“villa“ }}] }";
+    ".\n Note that this are mocked values,and you can't use the sample as a result and double check that the json returned MUST be valid and well formed json object";
 
     final chatCompletion = await OpenAI.instance.completion.create(
       model: 'text-davinci-003',

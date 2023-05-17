@@ -21,7 +21,7 @@ class PlacesScreen extends StatelessWidget {
               openGoogleMaps(placesList?[index].avoidNeiberhoods?.first.lat, placesList?[index].avoidNeiberhoods?.first.long);
             },
             title: Text(placesList?[index].city ?? "Error"),
-            subtitle: Text(placesList?[index].avoidNeiberhoods.toString()  ?? "Error"),
+            subtitle: Text(placesList?[index].avoidNeiberhoods?.first.name  ?? "Error"),
             // Customize the ListTile based on your needs
           );
         },
