@@ -17,7 +17,11 @@ class PlacesScreen extends StatelessWidget {
         itemCount: placesList?.length ?? 0,
         itemBuilder: (context, index) {
           List<ListTile> not_recommended_places = [];
-          placesList?[index].avoidNeiberhoods?.forEach((element) {
+          placesList?[index].recommendations?.forEach((element) {
+            not_recommended_places.add(ListTile(
+                title: Text(style: TextStyle(color: Colors.blue),element ?? "error")));
+          });
+          placesList?[index].avoidNeighborhoods?.forEach((element) {
             not_recommended_places.add(ListTile(
                 onTap: () {
                   openGoogleMaps(element.lat, element.long);

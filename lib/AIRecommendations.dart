@@ -7,15 +7,15 @@ class PlacesAI {
     if (json['results'] != null) {
       results = <Results>[];
       json['results'].forEach((v) {
-        results!.add(Results.fromJson(v));
+        results!.add(new Results.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    if (results != null) {
-      data['results'] = results!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    if (this.results != null) {
+      data['results'] = this.results!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -23,53 +23,52 @@ class PlacesAI {
 
 class Results {
   String? city;
-  List<String>? recomendations;
-  List<AvoidNeiberhoods>? avoidNeiberhoods;
+  List<String>? recommendations;
+  List<AvoidNeighborhoods>? avoidNeighborhoods;
 
-  Results({this.city, this.recomendations, this.avoidNeiberhoods});
+  Results({this.city, this.recommendations, this.avoidNeighborhoods});
 
   Results.fromJson(Map<String, dynamic> json) {
     city = json['city'];
-
-    recomendations = json['recommendations'].cast<String>();
+    recommendations = json['activities'].cast<String>();
     if (json['avoid_neighborhoods'] != null) {
-      avoidNeiberhoods = <AvoidNeiberhoods>[];
-      json['avoid_neighborhoods']?.forEach((v) {
-        avoidNeiberhoods!.add(AvoidNeiberhoods.fromJson(v));
+      avoidNeighborhoods = <AvoidNeighborhoods>[];
+      json['avoid_neighborhoods'].forEach((v) {
+        avoidNeighborhoods!.add(new AvoidNeighborhoods.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['city'] = city;
-    data['recommendations'] = recomendations;
-    if (avoidNeiberhoods != null) {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['city'] = this.city;
+    data['activities'] = this.recommendations;
+    if (this.avoidNeighborhoods != null) {
       data['avoid_neighborhoods'] =
-          avoidNeiberhoods!.map((v) => v.toJson()).toList();
+          this.avoidNeighborhoods!.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
-class AvoidNeiberhoods {
+class AvoidNeighborhoods {
   double? lat;
   double? long;
   String? name;
 
-  AvoidNeiberhoods({this.lat, this.long, this.name});
+  AvoidNeighborhoods({this.lat, this.long, this.name});
 
-  AvoidNeiberhoods.fromJson(Map<String, dynamic> json) {
+  AvoidNeighborhoods.fromJson(Map<String, dynamic> json) {
     lat = json['lat'];
     long = json['long'];
     name = json['name'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['lat'] = lat;
-    data['long'] = long;
-    data['name'] = name;
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['lat'] = this.lat;
+    data['long'] = this.long;
+    data['name'] = this.name;
     return data;
   }
 }

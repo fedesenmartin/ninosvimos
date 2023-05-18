@@ -32,11 +32,11 @@ class _MyAppState extends State<MyApp> {
   );
 
   final List<Interest> _interests = [
-    Interest(name: 'Naturaleza', value: 'naturaleza'),
-    Interest(name: 'Arte y museos', value: 'arte_museos'),
-    Interest(name: 'Compras', value: 'compras'),
-    Interest(name: 'Gastronomia', value: 'gastronomia'),
-    Interest(name: 'Deportes', value: 'deportes'),
+    Interest(name: 'Nature', value: 'Nature'),
+    Interest(name: 'Art and Museums', value: 'Art and Museums'),
+    Interest(name: 'Shopping', value: 'Shopping'),
+    Interest(name: 'Gastronomy', value: 'Gastronomy'),
+    Interest(name: 'Sports', value: 'Sports'),
   ];
   List<String> selectedInterests = [];
   String interest = "";
@@ -49,137 +49,156 @@ class _MyAppState extends State<MyApp> {
   int days = 0;
   int travelers = 0;
 
-
   Future<String> callChatGPTAPI() async {
     setState(() {
       isLoading = true;
     });
-    OpenAI.apiKey = "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";
+    OpenAI.apiKey = "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";
 
-    var prompt = "Assume that I am a software engineer and your answer must only be a valid json,nothing else. You're an REST API that return recommendations for women trvelers, at least 5"
-        " the api calculates a estimated vacation cost from the origin and must return recommended cities for the trip that are inside budget, the sum of plane tickets,hotels,foods must be inside budget. "
-        "The recommendations must be inside budget with all costs included,p lane ticket price is around 0.17 usd dollars per mile and you have tu calculate the distance betwwen origin and destination. Distance of origin from destination in miles * mile price, cant exceed 50% of budget "
-        " \n Result must include list of al least 5 recommended cities for the trip, and at least a list of 5  activites recommended for the trip of the city,the recomendation must have a minimun lenght of 50 characters, having in mind that the interest is" + interest+ ".Also for each city add a list of f dangerous/high criminality neighborhoods in field called avoid_neighborhoods  ,with the name of avoided neighborhood and the latitude and longitude info of each dangerous/high criminality not recommended neighborhood "
-        ".Take some reference values before 2021 to get estimated plane tickets price and hotels price info that is ok with the budget."
-        "The origin in this case is " +
+    var prompt = "Assume that I am a software engineer and your answer must only be a valid json,nothing else. You're an REST API that return recommendations for women trvelers, at least 5 cities must be recommended;"
+            " the api calculates a estimated vacation cost from the origin and must return recommended cities for the trip that are inside budget, the sum of plane tickets,hotels,foods must be in budget range  with all costs included,plane ticket price is around 0.17 usd dollars per mile and you have tu calculate the distance betwwen origin and destination. Distance of origin from destination in miles * mile price, cant exceed 50% of budget."
+            " \n Result must return at least 5 recommended cities for the trip, and at least a list of 5 long detailed guided activities,in field 'activities' for doing while traveling for the trip of the city, the kind of activities must be related with : " +
+        interest +
+        ".Also for each city add a list of at least 2 dangerous/high criminality neighborhoods in field called avoid_neighborhoods , with the name of avoided neighborhood and the latitude and longitude info of most dangerous/high criminality not recommended neighborhood for womens to stay."
+            "The origin in this case is " +
         origin +
         " and the budget is " +
         moneySpent.toString() +
-        " usd dollars for "+travelers.toString() + " person and " +days.toString() +"days."
-            "An example of returned json format: {“results“:[{“city“:“Buenos Aires“,“recommendations“:[“a night club in buenos Aires“,“Go to Casa Rosada“],“avoid_neighborhoods“:{“lat“:-34.6343603,“long“:-58.4059233,“name“:“danger neighborhoods“ }}] }";
-    ".\n Note that this are mocked values,and you can't use the sample as a result and only provide a  RFC8259 compliant JSON response following this format without deviation";
+        " usd dollars,for " +
+        travelers.toString() +
+        " person and " +
+        days.toString() +
+        " days of vacations."
+            "the format of returned json must be: {“results“:[{“city“:“Buenos Aires“,“activities“:[“a night club in buenos Aires“,“Go to Casa Rosada“],“avoid_neighborhoods“:[{“lat“:-34.6343603,“long“:-58.4059233,“name“:“danger neighborhoods“ }]}] }"
+    ".\n Note that this are mocked values,and you can't use the sample as a result and only provide a  RFC8259 compliant JSON response following this format without deviation.You only must return a json object and nothing else";
 
-    final chatCompletion = await OpenAI.instance.completion.create(
-      model: 'text-davinci-003',
-      maxTokens: 2000,
-      prompt: prompt,
-    );
-    logger.i(chatCompletion.choices.first.text);
+    logger.i(prompt);
+
+    final chatCompletion =
+        await OpenAI.instance.chat.create(model: "gpt-3.5-turbo", messages: [
+      OpenAIChatCompletionChoiceMessageModel(
+          content: prompt, role: OpenAIChatMessageRole.user)
+    ]);
+
+
+    // final chatCompletion = await OpenAI.instance.completion.create(
+    //   model: 'text-davinci-003',
+    //   maxTokens: 2000,
+    //   prompt: prompt,
+    // );
+    logger.i(chatCompletion.choices.first.message.content);
     setState(() {
       isLoading = false;
     });
-    chatgptResponse = chatCompletion.choices.first.text;
+    chatgptResponse = chatCompletion.choices.first.message.content;
     return chatgptResponse;
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Hackathon'),
-      ),
-      body: SingleChildScrollView(
-        child: Center(
+      body: Container(
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage("assets/paisaje.jpeg"),
+            fit: BoxFit.fill,
+          ),
+        ),
           child: Container(
-            padding: const EdgeInsets.all(16.0),
             child: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  TextFormField(
-                    keyboardType: TextInputType.text,
-                    decoration: const InputDecoration(labelText: 'Origin'),
-                    onChanged: (value) {
-                      setState(() {
-                        origin = value;
-                      });
-                    },
-                  ),
-                  TextFormField(
-                    keyboardType: TextInputType.number,
-                    decoration:
-                        const InputDecoration(labelText: 'Budget'),
-                    onChanged: (value) {
-                      setState(() {
-                        moneySpent = double.tryParse(value);
-                      });
-                    },
-                  ),
-                  const SizedBox(height: 16.0),
-                  TextFormField(
-                    keyboardType: TextInputType.text,
-                    decoration: const InputDecoration(labelText: 'Number of days'),
-                    onChanged: (value) {
-                      setState(() {
-                        days = int.parse(value);
-                      });
-                    },
-                  ),
-                  const SizedBox(height: 16.0),
-                  TextFormField(
-                    keyboardType: TextInputType.text,
-                    decoration: const InputDecoration(labelText: 'Number of travelers'),
-                    onChanged: (value) {
-                      setState(() {
-                        travelers = int.parse(value);
-                      });
-                    },
-                  ),
-                  const SizedBox(height: 16.0),
-                  MultiSelectDialogField<String>(
-                    title: const Text('Interest'),
-                    buttonText: const Text('Select Interests'),
-                    items: _interests
-                        .map((interest) => MultiSelectItem<String>(
-                              interest.value,
-                              interest.name,
-                            ))
-                        .toList(),
-                    listType: MultiSelectListType.CHIP,
-                    onConfirm: (values) {
-                      setState(() {
-                        selectedInterests = values;
-                        interest = selectedInterests.join(', ');
-                      });
-                    },
-                  ),
-                  const SizedBox(height: 32.0),
-                  ElevatedButton(
-                    onPressed: isLoading
-                        ? null
-                        : () {
-                            callChatGPTAPI().then((response) {
-                              Navigator.of(context).push(MaterialPageRoute<void>(
-                                  builder: (BuildContext context) {
-                                return PlacesScreen(
-                                    placesList: PlacesAI.fromJson(
-                                            jsonDecode(chatgptResponse))
-                                        .results);
-                              }));
-                            }).catchError((error) {
-                              logger.e(error);
+              child: Container(
+                padding: const EdgeInsets.all(16.0),
+                child: Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      TextFormField(
+                        keyboardType: TextInputType.text,
+                        decoration: const InputDecoration(labelText: 'Origin',hintStyle: TextStyle(color: Colors.white)),
+                        onChanged: (value) {
+                          setState(() {
+                            origin = value;
+                          });
+                        },
+                      ),
+                      TextFormField(
+                        keyboardType: TextInputType.number,
+                        decoration: const InputDecoration(labelText: 'Budget USD'),
+                        onChanged: (value) {
+                          setState(() {
+                            moneySpent = double.tryParse(value);
+                          });
+                        },
+                      ),
+                      const SizedBox(height: 16.0),
+                      TextFormField(
+                        keyboardType: TextInputType.text,
+                        decoration:
+                            const InputDecoration(labelText: 'Number of days'),
+                        onChanged: (value) {
+                          setState(() {
+                            days = int.parse(value);
+                          });
+                        },
+                      ),
+                      const SizedBox(height: 16.0),
+                      TextFormField(
+                        keyboardType: TextInputType.text,
+                        decoration:
+                            const InputDecoration(labelText: 'Number of travelers'),
+                        onChanged: (value) {
+                          setState(() {
+                            travelers = int.parse(value);
+                          });
+                        },
+                      ),
+                      const SizedBox(height: 16.0),
+                      MultiSelectDialogField<String>(
+                        title: const Text('Interest'),
+                        buttonText: const Text('Select Interests'),
+                        items: _interests
+                            .map((interest) => MultiSelectItem<String>(
+                                  interest.value,
+                                  interest.name,
+                                ))
+                            .toList(),
+                        listType: MultiSelectListType.CHIP,
+                        onConfirm: (values) {
+                          setState(() {
+                            selectedInterests = values;
+                            interest = selectedInterests.join(', ');
+                          });
+                        },
+                      ),
+                      const SizedBox(height: 32.0),
+                      ElevatedButton(
+                        onPressed: isLoading
+                            ? null
+                            : () {
+                                callChatGPTAPI().then((response) {
+                                  Navigator.of(context).push(
+                                      MaterialPageRoute<void>(
+                                          builder: (BuildContext context) {
+                                    return PlacesScreen(
+                                        placesList: PlacesAI.fromJson(
+                                                jsonDecode(chatgptResponse))
+                                            .results);
+                                  }));
+                                }).catchError((error) {
+                                  logger.e(error);
 
-                              // Handle API error here
-                            });
-                          },
-                    child: isLoading
-                        ? const CircularProgressIndicator()
-                        : const Text('Buscar Destinos'),
+                                  // Handle API error here
+                                });
+                              },
+                        child: isLoading
+                            ? const CircularProgressIndicator()
+                            : const Text('Search AI Destinations'),
+                      ),
+                    ],
                   ),
-                ],
+                ),
               ),
             ),
-          ),
         ),
       ),
     );
