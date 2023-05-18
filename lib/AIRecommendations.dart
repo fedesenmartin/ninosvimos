@@ -25,7 +25,7 @@ class Results {
   String? city;
   List<String>? recommendations;
   List<AvoidNeighborhoods>? avoidNeighborhoods;
-  double? estimatedCost;
+  int? estimatedCost;
 
   Results({this.city, this.recommendations, this.avoidNeighborhoods});
 

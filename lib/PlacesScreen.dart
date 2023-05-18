@@ -23,29 +23,38 @@ class PlacesScreen extends StatelessWidget {
         child: ListView.builder(
           itemCount: placesList?.length ?? 0,
           itemBuilder: (context, index) {
-            List<Widget> tileInfo = [];
+            List<ListTile> tileInfo = [];
             tileInfo.add(
-              Text("Estimated price:${placesList?[index].estimatedCost}"),
+              ListTile(
+                  style: ListTileStyle.list,
+                  title: Text(
+                      style: TextStyle(fontWeight:FontWeight.bold ),
+                      textAlign: TextAlign.left,
+                      "Estimated price: ${placesList?[index].estimatedCost}")),
             );
-            tileInfo.add(
-              Text("Activities:"),
-            );
+            tileInfo.add(ListTile(
+                title: Text(
+                    style: TextStyle(fontSize: 14, color: Colors.blue),
+                    textAlign: TextAlign.left,
+                    "Activities")));
             placesList?[index].recommendations?.forEach((element) {
               tileInfo.add(ListTile(
                   title: Text(
-                      style: TextStyle(color: Colors.blue),
+                      style: TextStyle(color: Colors.black54),
                       element ?? "error")));
             });
-            tileInfo.add(
-              Text("Avoid places:"),
-            );
+            tileInfo.add(ListTile(
+                title: Text(
+                    style: TextStyle(fontSize: 14, color: Colors.red),
+                    textAlign: TextAlign.left,
+                    "Avoid Places")));
             placesList?[index].avoidNeighborhoods?.forEach((element) {
               tileInfo.add(ListTile(
                   onTap: () {
                     openGoogleMaps(element.lat, element.long);
                   },
                   title: Text(
-                      style: TextStyle(color: Colors.red),
+                      style: TextStyle(color: Colors.black54),
                       element.name ?? "error")));
             });
             ExpansionTile title = ExpansionTile(
@@ -53,7 +62,7 @@ class PlacesScreen extends StatelessWidget {
                 title: Text(
                   placesList?[index].city ?? "Error",
                   textAlign: TextAlign.left,
-                  style: TextStyle(fontSize: 20),
+                  style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),
                 ));
 
             return Card(child: title);
