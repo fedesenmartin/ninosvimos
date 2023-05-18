@@ -55,9 +55,9 @@ class _MyAppState extends State<MyApp> {
     });
     OpenAI.apiKey = "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";
 
-    var prompt = "Assume that I am a software engineer and your answer must only be a valid json,nothing else. You're an REST API that return recommendations for travelers, at least 5 cities must be recommended and 5  activites must be recommended according to interests given."
-            " the api calculates a estimated vacation cost from the origin and must return recommended cities for the trip that are inside budget, the sum of plane tickets,hotels,foods must be in budget range  with all costs included,plane ticket price is around 0.17 usd dollars per mile and you have tu calculate the distance betwwen origin and destination."
-        " Distance of origin from destination in miles * mile price, cant exceed 50% of budget.Add a field named estimated_cost of type double, with an estimated cost of trip"
+    var prompt = "Assume that I am a software engineer and your answer must only be a valid json,nothing else. You're an REST API that returns recommendations for travelers, at least 5 cities must be recommended and 5  activites must be recommended according to interests given."
+            " you must return trips that are inside the budget given, a estimated vacation cost.the sum of plane tickets,hotels,foods,and activities must be in budget range with all costs included,plane ticket price is around 0.25 usd dollars per mile and you have tu calculate the distance betwwen origin and destination."
+        " Distance of origin from destination in miles * mile price (0,35 usd per mile), cant exceed 50% of budget.Add a field named estimated_cost of type double, with an estimated cost of trip"
             " \n Result must return at least 5 recommended cities for the trip, and return a list of at least 5 activities related to interest given. (with a lenght of 50 characters at least) in field 'activities' explaining as a tourist guide what to do at each city" +
         ".Also for each city add a list of at least 2 dangerous/high criminality neighborhoods in field called avoid_neighborhoods , with the name of avoided neighborhood and the latitude and longitude info of most dangerous/high criminality not recommended neighborhood for womens to stay."
             "The origin in this case is " +

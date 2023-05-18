@@ -13,26 +13,52 @@ class PlacesScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text('Places List'),
       ),
-      body: ListView.builder(
-        itemCount: placesList?.length ?? 0,
-        itemBuilder: (context, index) {
-          List<ListTile> not_recommended_places = [];
-          not_recommended_places.add(ListTile(title: Text("Estimated cost:${placesList?[index].estimatedCost}" ?? ""),));
-          placesList?[index].recommendations?.forEach((element) {
-            not_recommended_places.add(ListTile(
-                title: Text(style: TextStyle(color: Colors.blue),element ?? "error")));
-          });
-          placesList?[index].avoidNeighborhoods?.forEach((element) {
-            not_recommended_places.add(ListTile(
-                onTap: () {
-                  openGoogleMaps(element.lat, element.long);
+      body: Container(
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage("assets/segundo2.jpeg"),
+            fit: BoxFit.fill,
+          ),
+        ),
+        child: ListView.builder(
+          itemCount: placesList?.length ?? 0,
+          itemBuilder: (context, index) {
+            List<Widget> tileInfo = [];
+            tileInfo.add(
+              Text("Estimated price:${placesList?[index].estimatedCost}"),
+            );
+            tileInfo.add(
+              Text("Activities:"),
+            );
+            placesList?[index].recommendations?.forEach((element) {
+              tileInfo.add(ListTile(
+                  title: Text(
+                      style: TextStyle(color: Colors.blue),
+                      element ?? "error")));
+            });
+            tileInfo.add(
+              Text("Avoid places:"),
+            );
+            placesList?[index].avoidNeighborhoods?.forEach((element) {
+              tileInfo.add(ListTile(
+                  onTap: () {
+                    openGoogleMaps(element.lat, element.long);
                   },
-                title: Text(style: TextStyle(color: Colors.red),element.name ?? "error")));
-          });
-          return ExpansionTile(
-              title: Text(placesList?[index].city ?? "Error"),
-              children: not_recommended_places);
-        },
+                  title: Text(
+                      style: TextStyle(color: Colors.red),
+                      element.name ?? "error")));
+            });
+            ExpansionTile title = ExpansionTile(
+                children: tileInfo,
+                title: Text(
+                  placesList?[index].city ?? "Error",
+                  textAlign: TextAlign.left,
+                  style: TextStyle(fontSize: 20),
+                ));
+
+            return Card(child: title);
+          },
+        ),
       ),
     );
   }
