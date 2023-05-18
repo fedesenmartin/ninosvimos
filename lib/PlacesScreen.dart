@@ -16,23 +16,28 @@ class PlacesScreen extends StatelessWidget {
       body: ListView.builder(
         itemCount: placesList?.length ?? 0,
         itemBuilder: (context, index) {
-          return ListTile(
-            onTap: () {
-              openGoogleMaps(placesList?[index].avoidNeiberhoods?.first.lat, placesList?[index].avoidNeiberhoods?.first.long);
-            },
-            title: Text(placesList?[index].city ?? "Error"),
-            subtitle: Text(placesList?[index].avoidNeiberhoods?.first.name  ?? "Error"),
-            // Customize the ListTile based on your needs
-          );
+          List<ListTile> not_recommended_places = [];
+          placesList?[index].avoidNeiberhoods?.forEach((element) {
+            not_recommended_places.add(ListTile(
+                onTap: () {
+                  openGoogleMaps(element.lat, element.long);
+                  },
+                title: Text(style: TextStyle(color: Colors.red),element.name ?? "error")));
+          });
+          return ExpansionTile(
+              title: Text(placesList?[index].city ?? "Error"),
+              children: not_recommended_places);
         },
       ),
     );
   }
 
   void openGoogleMaps(double? latitude, double? longitude) async {
-    Uri googleMapsUrl = Uri.parse('https://www.google.com/maps/search/?api=1&query=$latitude,$longitude');
+    Uri googleMapsUrl = Uri.parse(
+        'https://www.google.com/maps/search/?api=1&query=$latitude,$longitude');
 
-    String googleUrl = 'https://www.google.com/maps/search/?api=1&query=$latitude,$longitude';
+    String googleUrl =
+        'https://www.google.com/maps/search/?api=1&query=$latitude,$longitude';
     if (await canLaunch(googleUrl)) {
       await launch(googleUrl);
     } else {
@@ -40,5 +45,3 @@ class PlacesScreen extends StatelessWidget {
     }
   }
 }
-
-
