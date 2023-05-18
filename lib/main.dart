@@ -55,10 +55,10 @@ class _MyAppState extends State<MyApp> {
     });
     OpenAI.apiKey = "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";
 
-    var prompt = "Assume that I am a software engineer and your answer must only be a valid json,nothing else. You're an REST API that return recommendations for women trvelers, at least 5 cities must be recommended;"
-            " the api calculates a estimated vacation cost from the origin and must return recommended cities for the trip that are inside budget, the sum of plane tickets,hotels,foods must be in budget range  with all costs included,plane ticket price is around 0.17 usd dollars per mile and you have tu calculate the distance betwwen origin and destination. Distance of origin from destination in miles * mile price, cant exceed 50% of budget."
-            " \n Result must return at least 5 recommended cities for the trip, and at least a list of 5 long detailed guided activities,in field 'activities' for doing while traveling for the trip of the city, the kind of activities must be related with : " +
-        interest +
+    var prompt = "Assume that I am a software engineer and your answer must only be a valid json,nothing else. You're an REST API that return recommendations for travelers, at least 5 cities must be recommended and 5  activites must be recommended according to interests given."
+            " the api calculates a estimated vacation cost from the origin and must return recommended cities for the trip that are inside budget, the sum of plane tickets,hotels,foods must be in budget range  with all costs included,plane ticket price is around 0.17 usd dollars per mile and you have tu calculate the distance betwwen origin and destination."
+        " Distance of origin from destination in miles * mile price, cant exceed 50% of budget.Add a field named estimated_cost of type double, with an estimated cost of trip"
+            " \n Result must return at least 5 recommended cities for the trip, and return a list of at least 5 activities related to interest given. (with a lenght of 50 characters at least) in field 'activities' explaining as a tourist guide what to do at each city" +
         ".Also for each city add a list of at least 2 dangerous/high criminality neighborhoods in field called avoid_neighborhoods , with the name of avoided neighborhood and the latitude and longitude info of most dangerous/high criminality not recommended neighborhood for womens to stay."
             "The origin in this case is " +
         origin +
@@ -67,10 +67,10 @@ class _MyAppState extends State<MyApp> {
         " usd dollars,for " +
         travelers.toString() +
         " person and " +
+        "you must recommend 5 activities related with " + interest + ", the lenght of trip is going to be " +
         days.toString() +
-        " days of vacations."
-            "the format of returned json must be: {“results“:[{“city“:“Buenos Aires“,“activities“:[“a night club in buenos Aires“,“Go to Casa Rosada“],“avoid_neighborhoods“:[{“lat“:-34.6343603,“long“:-58.4059233,“name“:“danger neighborhoods“ }]}] }"
-    ".\n Note that this are mocked values,and you can't use the sample as a result and only provide a  RFC8259 compliant JSON response following this format without deviation.You only must return a json object and nothing else";
+        " days of vacations. The format of returned json must be: {“results“:[{“city“:“Buenos Aires“,“estimated_cost“:200,“activities“:[“a night club in buenos Aires“,“Go to Casa Rosada“],“avoid_neighborhoods“:[{“lat“:-34.6343603,“long“:-58.4059233,“name“:“danger neighborhoods“ }]}] }"
+    ".Note that this are mocked values,and you can't use the sample as a result and only provide a  RFC8259 compliant JSON response following this format without deviation.You only must return a json object and nothing else";
 
     logger.i(prompt);
 
@@ -100,7 +100,7 @@ class _MyAppState extends State<MyApp> {
       body: Container(
         decoration: const BoxDecoration(
           image: DecorationImage(
-            image: AssetImage("assets/paisaje.jpeg"),
+            image: AssetImage("assets/1.jpeg"),
             fit: BoxFit.fill,
           ),
         ),

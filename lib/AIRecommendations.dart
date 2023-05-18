@@ -25,11 +25,13 @@ class Results {
   String? city;
   List<String>? recommendations;
   List<AvoidNeighborhoods>? avoidNeighborhoods;
+  double? estimatedCost;
 
   Results({this.city, this.recommendations, this.avoidNeighborhoods});
 
   Results.fromJson(Map<String, dynamic> json) {
     city = json['city'];
+    estimatedCost = json['estimated_cost'];
     recommendations = json['activities'].cast<String>();
     if (json['avoid_neighborhoods'] != null) {
       avoidNeighborhoods = <AvoidNeighborhoods>[];
