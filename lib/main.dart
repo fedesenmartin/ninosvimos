@@ -57,11 +57,11 @@ class _MyAppState extends State<MyApp> {
     OpenAI.apiKey = "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";
 
     var prompt =
-        "Assume that I am a software engineer and your answer must only be a valid json,nothing else. You’re an REST API that returns a json, if the trip is not posible return a empty list"
-        "you must recommend cities that having in mind ticket plane,acommodations,transportation etc are within given budget,at least 5 cities must be recommended."
-        " you can't recommend the same city of departure,and 5 activities must be recommended according to interests given. The budget includes plane tickets, hotels, and food."
+        "Assume that I am a software engineer and your answer must only be a valid json,nothing else. You’re an REST API that returns a json, if the trip is not possible return a empty list"
+        "you must recommend cities that having in mind ticket plane,accommodations,transportation etc are within given budget,at least 5 cities must be recommended."
+        " you can't recommend the same city of departure.You must recommend 5 activities according to interests given. The budget includes plane tickets, hotels, and food."
         "the total cost of the trip cannot exceed the given budget,the sum of plane tickets, hotels, foods and activities must be in budget range with all costs included for the quantity persons going in the trip."
-        "You must calculate an average price for the flight ticket, the formula is:the distance between city of departure and city of destination in miles multiplicated it for 0,40 USD dollars per mile.The flight ticket price can not exceed 50% of budget.You must add hotels,foods and activities prices also."
+        "You must calculate an average price for the flight ticket, the formula is:the distance between city of departure and city of destination in miles multiplied it for 0,40 USD dollars per mile.The flight ticket price can not exceed 50% of budget.You must add hotels,foods and activities prices also."
         "you can use the values for existing trips in google until 2021."
         "Add a field named 'estimated_cost' that must be always a integer type object, with an estimated total cost of the for the trip given including transportation,flights,food,etc."
         "Result must return at least 5 recommended cities for the trip, and return a list of at least 5 activities related to interest given. "
