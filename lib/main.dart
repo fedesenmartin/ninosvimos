@@ -2,7 +2,6 @@ import 'package:dart_openai/openai.dart';
 import 'package:flutter/material.dart';
 import 'package:hacka_flutter_app/AIRecommendations.dart';
 import 'package:hacka_flutter_app/PlacesScreen.dart';
-import 'package:hacka_flutter_app/SpashScreen.dart';
 import 'package:logger/logger.dart';
 import 'dart:convert';
 import 'package:multi_select_flutter/multi_select_flutter.dart';
@@ -58,10 +57,10 @@ class _MyAppState extends State<MyApp> {
     OpenAI.apiKey = "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";
 
     var prompt =
-        "Assume that I am a software engineer and your answer must only be a valid json,nothing else. You’re an REST API that returns a json with the best travel recommendations."
+        "Your response must only by a json.Assume that I am a software engineer and your answer must only be a valid json,nothing else. You’re an REST API that returns a json with the best travel recommendations."
         "Can you give trip recomendations ? Im departing from $origin,the budget for the trip is $moneySpent usd dollars ,total passengers are $travelers, the activites recommended must be related to $interest only, the length of trip is going to be $days days."
         " The format of returned json must be: {“results“:[{“city“:“Buenos Aires,Argentina“,“estimated_cost“:200,“activities“:[“a night club in buenos Aires“,“Go to Casa Rosada“],“avoid_neighborhoods“:[{“lat“:-34.6343603,“long“:-58.4059233,“name“:“danger neighborhoods“ }]}] }."
-        "You must provide a RFC8259 compliant JSON response following this format without deviation.You only must return a json object and nothing else"
+        "You must provide a RFC8259 compliant JSON response following this format without deviation.You only must return a json object and nothing else."
         "you must recommend the best cities price quality ratio that are appropriate for the given budget,the plane ticket,accommodations,transportation etc must be within given budget,at least 5 cities must be recommended."
         " you can't recommend the same city of departure.You must recommend 5 activities according to interests given. The budget includes plane tickets, hotels, and food."
         "the total cost of the trip cannot exceed the given budget,the sum of plane tickets, hotels, foods and activities must be in budget range with all costs included for the quantity persons going in the trip."
@@ -85,11 +84,19 @@ class _MyAppState extends State<MyApp> {
     //   prompt: prompt,
     // );
     logger.i(chatCompletion.choices.first.message.content);
-    setState(() {
-      isLoading = false;
-    });
+
     chatgptResponse = chatCompletion.choices.first.message.content;
-    return chatgptResponse;
+    if (isValidJson(chatgptResponse)) {
+      setState(() {
+        isLoading = false;
+      });
+      return chatgptResponse;
+    } else {
+      setState(() {
+        isLoading = true;
+      });
+      return callChatGPTAPI();
+    }
   }
 
   @override
@@ -98,7 +105,7 @@ class _MyAppState extends State<MyApp> {
       body: Container(
         decoration: const BoxDecoration(
           image: DecorationImage(
-            image: AssetImage("assets/1.jpeg"),
+            image: AssetImage("assets/bg3.jpeg"),
             fit: BoxFit.fill,
           ),
         ),
@@ -205,5 +212,14 @@ class _MyAppState extends State<MyApp> {
         ),
       ),
     );
+  }
+
+  bool isValidJson(String jsonString) {
+    try {
+      jsonDecode(jsonString);
+      return true;
+    } catch (e) {
+      return false;
+    }
   }
 }

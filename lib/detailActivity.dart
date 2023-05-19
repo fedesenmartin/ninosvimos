@@ -55,7 +55,7 @@ class _MyScreenState extends State<MyScreen> {
       body: Container(
         decoration: const BoxDecoration(
           image: DecorationImage(
-            image: AssetImage("assets/1.jpeg"),
+            image: AssetImage("assets/claro.jpeg"),
             fit: BoxFit.fill,
           ),
         ),
