@@ -57,16 +57,18 @@ class _MyAppState extends State<MyApp> {
     OpenAI.apiKey = "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";
 
     var prompt =
-        "Assume that I am a software engineer and your answer must only be a valid json,nothing else. You’re an REST API that returns a json with travel recommendations."
-        "you must recommend the best cities that are appropriate for the budget,the plane ticket,accommodations,transportation etc must be  within given budget,at least 5 cities must be recommended."
+        "Assume that I am a software engineer and your answer must only be a valid json,nothing else. You’re an REST API that returns a json with the best travel recommendations."
+        "Can you give trip recomendations ? Im departing from $origin,the budget for the trip is $moneySpent usd dollars ,total passengers are $travelers, the activites recommended must be related to $interest only, the length of trip is going to be $days days."
+        " The format of returned json must be: {“results“:[{“city“:“Buenos Aires,Argentina“,“estimated_cost“:200,“activities“:[“a night club in buenos Aires“,“Go to Casa Rosada“],“avoid_neighborhoods“:[{“lat“:-34.6343603,“long“:-58.4059233,“name“:“danger neighborhoods“ }]}] }."
+        "Note that this are mocked values,and you can't use the sample as a result and only provide a  RFC8259 compliant JSON response following this format without deviation.You only must return a json object and nothing else"
+        "you must recommend the best cities price quality ratio that are appropriate for the given budget,the plane ticket,accommodations,transportation etc must be within given budget,at least 5 cities must be recommended."
         " you can't recommend the same city of departure.You must recommend 5 activities according to interests given. The budget includes plane tickets, hotels, and food."
         "the total cost of the trip cannot exceed the given budget,the sum of plane tickets, hotels, foods and activities must be in budget range with all costs included for the quantity persons going in the trip."
         "You must calculate an average price for the flight ticket, the formula is:the distance between city of departure and city of destination in miles multiplied it for 0,40 USD dollars per mile.The flight ticket price can not exceed 50% of budget.You must add hotels,foods and activities prices also."
         "you can use the values for existing trips in google until 2021."
         "Add a field named 'estimated_cost' that must be always a integer type object, with an estimated total cost of the for the trip given including transportation,flights,food,etc."
         "Result must return at least 5 recommended cities for the trip, and return a list of at least 5 activities related to interest given. "
-        "in field ‘activities’ explaining as a tourist guide what to do at each city.Also for each city add a list of at least 2 dangerous/high criminality neighborhoods in field called avoid_neighborhoods , with the name of avoided neighborhood and the latitude and longitude info of most dangerous/high criminality not recommended neighborhood for womens to stay.\n "
-        "Can you give trip recomendations ? Im departing from $origin,the budget for the whole trip is $moneySpent usd dollars ,total passengers are $travelers, the activites recommended must be related to $interest only, the length of trip is going to be $days days. The format of returned json must be: {“results“:[{“city“:“Buenos Aires,Argentina“,“estimated_cost“:200,“activities“:[“a night club in buenos Aires“,“Go to Casa Rosada“],“avoid_neighborhoods“:[{“lat“:-34.6343603,“long“:-58.4059233,“name“:“danger neighborhoods“ }]}] }.Note that this are mocked values,and you can't use the sample as a result and only provide a  RFC8259 compliant JSON response following this format without deviation.You only must return a json object and nothing else";
+        "in field ‘activities’ explaining as a tourist guide what to do at each city.Also for each city add a list of at least 2 dangerous/high criminality neighborhoods in field called avoid_neighborhoods , with the name of avoided neighborhood and the latitude and longitude info of most dangerous/high criminality not recommended neighborhood for womens to stay. ";
 
     logger.i(prompt);
 
