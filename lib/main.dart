@@ -8,6 +8,7 @@ import 'package:multi_select_flutter/multi_select_flutter.dart';
 
 void main() {
   runApp(const MaterialApp(
+    debugShowCheckedModeBanner: false,
     home: MyApp(),
   ));
 }
@@ -55,7 +56,8 @@ class _MyAppState extends State<MyApp> {
     });
     OpenAI.apiKey = "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";
 
-    var prompt = "Assume that I am a software engineer and your answer must only be a valid json,nothing else. You’re an REST API that returns a json, if the trip is not posible return a empty list"
+    var prompt =
+        "Assume that I am a software engineer and your answer must only be a valid json,nothing else. You’re an REST API that returns a json, if the trip is not posible return a empty list"
         "you must recommend cities that having in mind ticket plane,acommodations,transportation etc are within given budget,at least 5 cities must be recommended."
         " you can't recommend the same city of departure,and 5 activities must be recommended according to interests given. The budget includes plane tickets, hotels, and food."
         "the total cost of the trip cannot exceed the given budget,the sum of plane tickets, hotels, foods and activities must be in budget range with all costs included for the quantity persons going in the trip."
@@ -64,19 +66,15 @@ class _MyAppState extends State<MyApp> {
         "Add a field named 'estimated_cost' that must be always a integer type object, with an estimated total cost of the for the trip given including transportation,flights,food,etc."
         "Result must return at least 5 recommended cities for the trip, and return a list of at least 5 activities related to interest given. "
         "in field ‘activities’ explaining as a tourist guide what to do at each city.Also for each city add a list of at least 2 dangerous/high criminality neighborhoods in field called avoid_neighborhoods , with the name of avoided neighborhood and the latitude and longitude info of most dangerous/high criminality not recommended neighborhood for womens to stay.\n "
-        "Can you give trip recomendations ? Im departing from $origin,the budget for the whole trip is $moneySpent usd dollars ,total passengers are $travelers, the 5 activities you  recommend 5 activities must be related to $interest, the length of trip is going to be $days days. The format of returned json must be: {“results“:[{“city“:“Buenos Aires,Argentina“,“estimated_cost“:200,“activities“:[“a night club in buenos Aires“,“Go to Casa Rosada“],“avoid_neighborhoods“:[{“lat“:-34.6343603,“long“:-58.4059233,“name“:“danger neighborhoods“ }]}] }.Note that this are mocked values,and you can't use the sample as a result and only provide a  RFC8259 compliant JSON response following this format without deviation.You only must return a json object and nothing else";
-
+        "Can you give trip recomendations ? Im departing from $origin,the budget for the whole trip is $moneySpent usd dollars ,total passengers are $travelers, the activites recommended must be related to $interest only, the length of trip is going to be $days days. The format of returned json must be: {“results“:[{“city“:“Buenos Aires,Argentina“,“estimated_cost“:200,“activities“:[“a night club in buenos Aires“,“Go to Casa Rosada“],“avoid_neighborhoods“:[{“lat“:-34.6343603,“long“:-58.4059233,“name“:“danger neighborhoods“ }]}] }.Note that this are mocked values,and you can't use the sample as a result and only provide a  RFC8259 compliant JSON response following this format without deviation.You only must return a json object and nothing else";
 
     logger.i(prompt);
 
-    final chatCompletion =
-        await OpenAI.instance.chat.create(model: "gpt-3.5-turbo",
-            maxTokens: 2000,
-            messages: [
+    final chatCompletion = await OpenAI.instance.chat
+        .create(model: "gpt-3.5-turbo", maxTokens: 2000, messages: [
       OpenAIChatCompletionChoiceMessageModel(
           content: prompt, role: OpenAIChatMessageRole.user)
     ]);
-
 
     // final chatCompletion = await OpenAI.instance.completion.create(
     //   model: 'text-davinci-003',
@@ -101,103 +99,106 @@ class _MyAppState extends State<MyApp> {
             fit: BoxFit.fill,
           ),
         ),
-          child: Container(
-            child: Center(
-              child: Container(
-                padding: const EdgeInsets.all(16.0),
-                child: Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      TextFormField(
-                        keyboardType: TextInputType.text,
-                        decoration: const InputDecoration(labelText: 'Origin',hintStyle: TextStyle(color: Colors.white)),
-                        onChanged: (value) {
-                          setState(() {
-                            origin = value;
-                          });
-                        },
-                      ),
-                      TextFormField(
-                        keyboardType: TextInputType.number,
-                        decoration: const InputDecoration(labelText: 'Budget USD'),
-                        onChanged: (value) {
-                          setState(() {
-                            moneySpent = double.tryParse(value);
-                          });
-                        },
-                      ),
-                      const SizedBox(height: 16.0),
-                      TextFormField(
-                        keyboardType: TextInputType.text,
-                        decoration:
-                            const InputDecoration(labelText: 'Number of days'),
-                        onChanged: (value) {
-                          setState(() {
-                            days = int.parse(value);
-                          });
-                        },
-                      ),
-                      const SizedBox(height: 16.0),
-                      TextFormField(
-                        keyboardType: TextInputType.text,
-                        decoration:
-                            const InputDecoration(labelText: 'Number of travelers'),
-                        onChanged: (value) {
-                          setState(() {
-                            travelers = int.parse(value);
-                          });
-                        },
-                      ),
-                      const SizedBox(height: 16.0),
-                      MultiSelectDialogField<String>(
-                        title: const Text('Interest'),
-                        buttonText: const Text('Select Interests'),
-                        items: _interests
-                            .map((interest) => MultiSelectItem<String>(
-                                  interest.value,
-                                  interest.name,
-                                ))
-                            .toList(),
-                        listType: MultiSelectListType.CHIP,
-                        onConfirm: (values) {
-                          setState(() {
-                            selectedInterests = values;
-                            interest = selectedInterests.join(', ');
-                          });
-                        },
-                      ),
-                      const SizedBox(height: 32.0),
-                      ElevatedButton(
-                        onPressed: isLoading
-                            ? null
-                            : () {
-                          FocusScope.of(context).unfocus();
+        child: Container(
+          child: Center(
+            child: Container(
+              padding: const EdgeInsets.all(16.0),
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    TextFormField(
+                      keyboardType: TextInputType.text,
+                      decoration: const InputDecoration(
+                          labelText: 'Origin',
+                          hintStyle: TextStyle(color: Colors.white)),
+                      onChanged: (value) {
+                        setState(() {
+                          origin = value;
+                        });
+                      },
+                    ),
+                    TextFormField(
+                      keyboardType: TextInputType.number,
+                      decoration:
+                          const InputDecoration(labelText: 'Budget USD'),
+                      onChanged: (value) {
+                        setState(() {
+                          moneySpent = double.tryParse(value);
+                        });
+                      },
+                    ),
+                    const SizedBox(height: 16.0),
+                    TextFormField(
+                      keyboardType: TextInputType.text,
+                      decoration:
+                          const InputDecoration(labelText: 'Number of days'),
+                      onChanged: (value) {
+                        setState(() {
+                          days = int.parse(value);
+                        });
+                      },
+                    ),
+                    const SizedBox(height: 16.0),
+                    TextFormField(
+                      keyboardType: TextInputType.text,
+                      decoration: const InputDecoration(
+                          labelText: 'Number of travelers'),
+                      onChanged: (value) {
+                        setState(() {
+                          travelers = int.parse(value);
+                        });
+                      },
+                    ),
+                    const SizedBox(height: 16.0),
+                    MultiSelectDialogField<String>(
+                      title: const Text('Interest'),
+                      buttonText: const Text('Select Interests'),
+                      items: _interests
+                          .map((interest) => MultiSelectItem<String>(
+                                interest.value,
+                                interest.name,
+                              ))
+                          .toList(),
+                      listType: MultiSelectListType.CHIP,
+                      onConfirm: (values) {
+                        setState(() {
+                          selectedInterests = values;
+                          interest = selectedInterests.join(', ');
+                        });
+                      },
+                    ),
+                    const SizedBox(height: 32.0),
+                    ElevatedButton(
+                      onPressed: isLoading
+                          ? null
+                          : () {
+                              FocusScope.of(context).unfocus();
 
-                          callChatGPTAPI().then((response) {
-                                  Navigator.of(context).push(
-                                      MaterialPageRoute<void>(
-                                          builder: (BuildContext context) {
-                                    return PlacesScreen(
-                                        placesList: PlacesAI.fromJson(
-                                                jsonDecode(chatgptResponse))
-                                            .results);
-                                  }));
-                                }).catchError((error) {
-                                  logger.e(error);
+                              callChatGPTAPI().then((response) {
+                                Navigator.of(context).push(
+                                    MaterialPageRoute<void>(
+                                        builder: (BuildContext context) {
+                                  return PlacesScreen(
+                                      placesList: PlacesAI.fromJson(
+                                              jsonDecode(chatgptResponse))
+                                          .results);
+                                }));
+                              }).catchError((error) {
+                                logger.e(error);
 
-                                  // Handle API error here
-                                });
-                              },
-                        child: isLoading
-                            ? const CircularProgressIndicator()
-                            : const Text('Search AI Destinations'),
-                      ),
-                    ],
-                  ),
+                                // Handle API error here
+                              });
+                            },
+                      child: isLoading
+                          ? const CircularProgressIndicator()
+                          : const Text('Search AI Destinations'),
+                    ),
+                  ],
                 ),
               ),
             ),
+          ),
         ),
       ),
     );
