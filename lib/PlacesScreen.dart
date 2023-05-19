@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hacka_flutter_app/AIRecommendations.dart';
+import 'package:hacka_flutter_app/detailActivity.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class PlacesScreen extends StatelessWidget {
@@ -39,6 +40,16 @@ class PlacesScreen extends StatelessWidget {
                     "Activities")));
             placesList?[index].recommendations?.forEach((element) {
               tileInfo.add(ListTile(
+                onTap: () {
+
+                  Navigator.of(context).push(
+                      MaterialPageRoute<void>(
+                          builder: (BuildContext context) {
+                            return MyScreen(myString: element + "at ");
+                          }));
+                  
+                  
+                },
                   title: Text(
                       style: TextStyle(color: Colors.black54),
                       element ?? "error")));
