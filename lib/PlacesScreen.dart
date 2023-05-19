@@ -12,7 +12,7 @@ class PlacesScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Places List'),
+        title: const Text('AI Recommendations'),
       ),
       body: Container(
         decoration: const BoxDecoration(
@@ -41,7 +41,7 @@ class PlacesScreen extends StatelessWidget {
             placesList?[index].recommendations?.forEach((element) {
               tileInfo.add(ListTile(
                 onTap: () {
-                  var details = " in ${placesList?[index].city}";
+                  var details = " at ${placesList?[index].city}";
                   Navigator.of(context).push(
                       MaterialPageRoute<void>(
                           builder: (BuildContext context) {
