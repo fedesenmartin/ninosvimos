@@ -54,7 +54,7 @@ class _MyScreenState extends State<MyScreen> {
               padding: const EdgeInsets.all(8.0),
               child: Container(
 
-              child: Text(explianed)
+              child: SingleChildScrollView(child: Text(style: TextStyle(fontSize: 16),explianed))
         ),
             ),
       ),

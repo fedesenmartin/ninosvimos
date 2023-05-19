@@ -41,14 +41,12 @@ class PlacesScreen extends StatelessWidget {
             placesList?[index].recommendations?.forEach((element) {
               tileInfo.add(ListTile(
                 onTap: () {
-
+                  var details = " in ${placesList?[index].city}";
                   Navigator.of(context).push(
                       MaterialPageRoute<void>(
                           builder: (BuildContext context) {
-                            return MyScreen(myString: element + "at ");
+                            return MyScreen(myString: element + details);
                           }));
-                  
-                  
                 },
                   title: Text(
                       style: TextStyle(color: Colors.black54),
