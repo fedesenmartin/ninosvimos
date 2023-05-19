@@ -24,7 +24,7 @@ class _MyScreenState extends State<MyScreen> {
     var prompt = "give more detailed about " + widget.myString;
 
     final chatCompletion = await OpenAI.instance.chat
-        .create(model: "gpt-3.5-turbo", maxTokens: 2000, messages: [
+        .create(model: "gpt-3.5-turbo", maxTokens: 500, messages: [
       OpenAIChatCompletionChoiceMessageModel(
           content: prompt, role: OpenAIChatMessageRole.user)
     ]);
@@ -44,19 +44,33 @@ class _MyScreenState extends State<MyScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBodyBehindAppBar: false,
       appBar: AppBar(
+        iconTheme: IconThemeData(color: Colors.white),
+        titleTextStyle: TextStyle(color: Colors.white),
+        backgroundColor: Colors.blue,
+        elevation: 0, // Remove the shadow
         title: Text(widget.myString),
       ),
-      body: Center(
-        child: isLoading
-            ? CircularProgressIndicator()
-            : Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Container(
-
-              child: SingleChildScrollView(child: Text(style: TextStyle(fontSize: 16),explianed))
+      body: Container(
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage("assets/1.jpeg"),
+            fit: BoxFit.fill,
+          ),
         ),
-            ),
+        child: Center(
+
+          child: isLoading
+              ? CircularProgressIndicator()
+              : Padding(
+                padding: const EdgeInsets.fromLTRB(8,2,8,0),
+                child: Container(
+
+                child: SingleChildScrollView(child: Text(style: TextStyle(fontSize: 16),explianed))
+          ),
+              ),
+        ),
       ),
     );
   }
