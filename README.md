@@ -1,6 +1,6 @@
 # Ninosvimos
 
-a Flutter project for women travel recommendations using AI chatgpt
+A Flutter app for women travels, recommendations using AI chatgpt
 
 ![Screenshot 2023-05-20 142047](https://github.com/fedesenmartin/ninosvimos/assets/17075982/194092ca-4907-456a-9d7f-ca5bea8aadf6)
 
