@@ -2,6 +2,9 @@
 
 a Flutter project for women travel recommendations using AI chatgpt
 
+![Screenshot 2023-05-20 141427](https://github.com/fedesenmartin/ninosvimos/assets/17075982/4a935859-51e4-4280-91f0-3a10581153bd)
+
+
 ## Getting Started
 
 This project is a starting point for a Flutter application.
