@@ -54,7 +54,7 @@ class _MyAppState extends State<MyApp> {
     setState(() {
       isLoading = true;
     });
-    OpenAI.apiKey = "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";
+    OpenAI.apiKey = "";
 
     var prompt =
         "Your response must only by a json.Assume that I am a software engineer and your answer must only be a valid json,nothing else. You’re an REST API that returns a json with the best travel recommendations."
