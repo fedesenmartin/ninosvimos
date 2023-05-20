@@ -2,11 +2,11 @@
 
 A Flutter app for women travels, recommendations using AI chatgpt
 
-![Screenshot 2023-05-20 142047](https://github.com/fedesenmartin/ninosvimos/assets/17075982/194092ca-4907-456a-9d7f-ca5bea8aadf6)
+![1](https://github.com/fedesenmartin/ninosvimos/assets/17075982/bd90dd18-667b-48d9-9f54-438a357f218f)
 
-![Screenshot 2023-05-20 141427](https://github.com/fedesenmartin/ninosvimos/assets/17075982/4a935859-51e4-4280-91f0-3a10581153bd)
+![2](https://github.com/fedesenmartin/ninosvimos/assets/17075982/4a4129b1-9cfb-4995-8b77-10672b6a40b7)
 
-![Screenshot 2023-05-20 142352](https://github.com/fedesenmartin/ninosvimos/assets/17075982/4f084cc0-ee6a-408f-892c-a0bdd235e4a2)
+![3](https://github.com/fedesenmartin/ninosvimos/assets/17075982/0f4031bc-c455-4179-b30c-efd4cca12bb1)
 
 
 ## Requirements
