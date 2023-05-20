@@ -1,6 +1,6 @@
 # Ninosvimos
 
-A new Flutter project.
+a Flutter project for women travel recommendations using AI chatgpt
 
 ## Getting Started
 
