@@ -9,7 +9,7 @@ a Flutter project for women travel recommendations using AI chatgpt
 
 
 A few resources to get app running:
-- [Install fluter sdk] https://docs.flutter.dev/get-started/install
+- [Install fluter sdk](https://docs.flutter.dev/get-started/install)
 - [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
 - [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
 
