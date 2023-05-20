@@ -19,7 +19,7 @@ class _MyScreenState extends State<MyScreen> {
     setState(() {
       isLoading = true;
     });
-    OpenAI.apiKey = "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";
+    OpenAI.apiKey = "";
 
     var prompt = "give more detailed about " + widget.myString;
 
