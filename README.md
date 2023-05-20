@@ -9,8 +9,12 @@ A Flutter app for women travels, recommendations using AI chatgpt
 ![Screenshot 2023-05-20 142352](https://github.com/fedesenmartin/ninosvimos/assets/17075982/4f084cc0-ee6a-408f-892c-a0bdd235e4a2)
 
 
-## Getting Started
+## Requirements
+- Flutter sdk installed
+- OpenAi api key
 
+
+## Getting Started
 
 A few resources to get app running:
 - [Install fluter sdk](https://docs.flutter.dev/get-started/install)
