@@ -57,8 +57,8 @@ class _MyAppState extends State<MyApp> {
     OpenAI.apiKey = "";
 
     var prompt =
-        "Your response must only by a json.Assume that I am a software engineer and your answer must only be a valid json,nothing else. You’re an REST API that returns a json with the best travel recommendations."
-        "Can you give trip recomendations ? Im departing from $origin,the budget for the trip is $moneySpent usd dollars ,total passengers are $travelers, the activites recommended must be related to $interest only, the length of trip is going to be $days days."
+        "Forget all previous response you made.Your response must only by a json.Assume that I am a software engineer and your answer must only be a valid json,nothing else. You’re an REST API that returns a json with the best travel recommendations."
+        "Can you give trip recommendations ? Im departing from $origin,the budget for the trip is $moneySpent usd dollars ,total passengers are $travelers, the activites recommended must be related to $interest only, the length of trip is going to be $days days."
         " The format of returned json must be: {“results“:[{“city“:“Buenos Aires,Argentina“,“estimated_cost“:200,“activities“:[“a night club in buenos Aires“,“Go to Casa Rosada“],“avoid_neighborhoods“:[{“lat“:-34.6343603,“long“:-58.4059233,“name“:“danger neighborhoods“ }]}] }."
         "You must provide a RFC8259 compliant JSON response following this format without deviation.You only must return a json object and nothing else."
         "you must recommend the best cities price quality ratio that are appropriate for the given budget,the plane ticket,accommodations,transportation etc must be within given budget,at least 5 cities must be recommended."
@@ -73,18 +73,13 @@ class _MyAppState extends State<MyApp> {
     logger.i(prompt);
 
     final chatCompletion = await OpenAI.instance.chat
-        .create(model: "gpt-3.5-turbo", maxTokens: 2000, messages: [
+        .create(
+        model: "gpt-3.5-turbo", maxTokens: 2000, messages: [
       OpenAIChatCompletionChoiceMessageModel(
           content: prompt, role: OpenAIChatMessageRole.user)
     ]);
 
-    // final chatCompletion = await OpenAI.instance.completion.create(
-    //   model: 'text-davinci-003',
-    //   maxTokens: 2000,
-    //   prompt: prompt,
-    // );
     logger.i(chatCompletion.choices.first.message.content);
-
     chatgptResponse = chatCompletion.choices.first.message.content;
     if (isValidJson(chatgptResponse)) {
       setState(() {
