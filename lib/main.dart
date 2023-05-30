@@ -5,8 +5,10 @@ import 'package:hacka_flutter_app/PlacesScreen.dart';
 import 'package:logger/logger.dart';
 import 'dart:convert';
 import 'package:multi_select_flutter/multi_select_flutter.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-void main() {
+Future main() async {
+  await dotenv.load(fileName: ".env");
   runApp(const MaterialApp(
     debugShowCheckedModeBanner: false,
     home: MyApp(),
@@ -54,7 +56,7 @@ class _MyAppState extends State<MyApp> {
     setState(() {
       isLoading = true;
     });
-    OpenAI.apiKey = "";
+    OpenAI.apiKey = dotenv.env['OPENAI_API_KEY'] ?? "";
 
     var prompt =
         "Forget all previous response you made.Your response must only by a json.Assume that I am a software engineer and your answer must only be a valid json,nothing else. You’re an REST API that returns a json with the best travel recommendations."
