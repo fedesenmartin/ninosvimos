@@ -11,7 +11,7 @@ A Flutter app for women travels, recommendations using AI chatgpt
 
 ## Requirements
 - Flutter sdk installed
-- OpenAi api key
+- OpenAi api key and add it to .env file at root src folder. 
 
 
 ## Getting Started
