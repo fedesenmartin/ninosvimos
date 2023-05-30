@@ -1,5 +1,6 @@
 import 'package:dart_openai/openai.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class MyScreen extends StatefulWidget {
   final String myString;
@@ -19,7 +20,7 @@ class _MyScreenState extends State<MyScreen> {
     setState(() {
       isLoading = true;
     });
-    OpenAI.apiKey = "";
+    OpenAI.apiKey = dotenv.env['OPENAI_API_KEY'] ?? "";
 
     var prompt = "give more detailed about " + widget.myString;
 
